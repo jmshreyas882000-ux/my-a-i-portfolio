@@ -117,9 +117,15 @@ p{
 <div class="grid"></div>
 
 <div class="glow"></div>
-
+  
+<div class="cursor-glow"></div>
 <div class="content">
 <div class="cards">
+  <div id="loader">
+
+  <h1>INITIALIZING AI SYSTEM...</h1>
+
+</div>
 
   <div class="card">
     <h2>AI ENGINEERING</h2>
@@ -202,6 +208,22 @@ class Particle{
 
   }
 
+}
+.cursor-glow{
+  position:fixed;
+
+  width:300px;
+  height:300px;
+
+  border-radius:50%;
+
+  background:rgba(0,255,255,0.15);
+
+  filter:blur(80px);
+
+  pointer-events:none;
+
+  z-index:2;
 }
 .cards{
   position:relative;
@@ -325,6 +347,15 @@ window.addEventListener("resize",()=>{
 
   canvas.width = window.innerWidth;
   canvas.height = window.innerHeight;
+
+});
+  const glow = document.querySelector(".cursor-glow");
+
+window.addEventListener("mousemove",(e)=>{
+
+  glow.style.left = e.clientX - 150 + "px";
+
+  glow.style.top = e.clientY - 150 + "px";
 
 });
 
