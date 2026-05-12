@@ -468,7 +468,6 @@ const particlesMesh = new THREE.Points(
   particlesMaterial
 );
 
-scene.add(particlesMesh);
 const sphereGeometry = new THREE.IcosahedronGeometry(
   5,
   1
@@ -488,6 +487,8 @@ const sphere = new THREE.Mesh(
 );
 
 scene.add(sphere);
+  sphere.rotation.x += 0.003;
+sphere.rotation.y += 0.004;
   function animate(){
 
   requestAnimationFrame(animate);
