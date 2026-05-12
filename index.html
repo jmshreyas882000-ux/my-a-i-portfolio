@@ -500,7 +500,9 @@ galaxy.rotation.y += 0.002;
   renderer.render(scene,camera);
 
 }
-
+  
+sphere.position.y =
+Math.sin(Date.now() * 0.001) * 0.8;
 animate();
 
 import * as THREE from 'https://cdn.jsdelivr.net/npm/three@0.160/build/three.module.js';
