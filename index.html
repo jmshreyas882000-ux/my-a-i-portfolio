@@ -467,28 +467,28 @@ const particlesMesh = new THREE.Points(
   particlesGeometry,
   particlesMaterial
 );
-
-const sphereGeometry = new THREE.IcosahedronGeometry(
+const galaxyGeometry = new THREE.SphereGeometry(
   5,
-  1
+  64,
+  64
 );
 
-const sphereMaterial = new THREE.MeshBasicMaterial({
+const galaxyMaterial = new THREE.MeshBasicMaterial({
 
-  color:0x00ffff,
+  color:0xffffff,
 
   wireframe:true
 
 });
 
-const sphere = new THREE.Mesh(
-  sphereGeometry,
-  sphereMaterial
+const galaxy = new THREE.Mesh(
+  galaxyGeometry,
+  galaxyMaterial
 );
 
-scene.add(sphere);
-  sphere.rotation.x += 0.003;
-sphere.rotation.y += 0.004;
+scene.add(galaxy);
+galaxy.rotation.y += 0.002;
+  
   function animate(){
 
   requestAnimationFrame(animate);
