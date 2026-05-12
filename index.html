@@ -382,6 +382,26 @@ window.addEventListener("mousemove",(e)=>{
   glow.style.top = e.clientY - 150 + "px";
 
 });
+  const text =
+"Building futuristic AI systems for the next generation.";
+
+let i = 0;
+
+function type(){
+
+  if(i < text.length){
+
+    document.getElementById("typing").innerHTML += text.charAt(i);
+
+    i++;
+
+    setTimeout(type,40);
+
+  }
+
+}
+
+type();
 
 </script>
 
