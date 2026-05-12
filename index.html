@@ -469,26 +469,25 @@ const particlesMesh = new THREE.Points(
 );
 
 scene.add(particlesMesh);
-  const torusGeometry = new THREE.TorusGeometry(
+const sphereGeometry = new THREE.IcosahedronGeometry(
   5,
-  1.2,
-  30,
-  200
+  1
 );
 
-const torusMaterial = new THREE.MeshBasicMaterial({
+const sphereMaterial = new THREE.MeshBasicMaterial({
 
   color:0x00ffff,
+
   wireframe:true
 
 });
 
-const torus = new THREE.Mesh(
-  torusGeometry,
-  torusMaterial
+const sphere = new THREE.Mesh(
+  sphereGeometry,
+  sphereMaterial
 );
 
-scene.add(torus);
+scene.add(sphere);
   function animate(){
 
   requestAnimationFrame(animate);
