@@ -266,7 +266,24 @@ class Particle{
 
   justify-content:center;
 }
+body::after{
+  content:"";
 
+  position:fixed;
+  inset:0;
+
+  background:
+  linear-gradient(
+    rgba(255,255,255,0.03) 1px,
+    transparent 1px
+  );
+
+  background-size:100% 3px;
+
+  pointer-events:none;
+
+  opacity:0.08;
+}
 .card{
   width:300px;
 
@@ -503,9 +520,40 @@ galaxy.rotation.y += 0.002;
   
 sphere.position.y =
 Math.sin(Date.now() * 0.001) * 0.8;
+  scene.rotation.y = mouseX * 0.5;
+
+scene.rotation.x = mouseY * 0.3;
 animate();
 
 import * as THREE from 'https://cdn.jsdelivr.net/npm/three@0.160/build/three.module.js';
+  let mouseX = 0;
+let mouseY = 0;
+
+document.addEventListener("mousemove",(e)=>{
+
+  mouseX =
+  (e.clientX / window.innerWidth - 0.5);
+
+  mouseY =
+  (e.clientY / window.innerHeight - 0.5);
+
+});
+  const light = new THREE.PointLight(
+  0x00ffff,
+  8,
+  100
+);
+
+light.position.set(0,0,10);
+
+scene.add(light);
+  scene.fog = new THREE.Fog(
+  0x000000,
+  10,
+  60
+);
+  const particleCount = 5000;
+  
   </script>
 </body>
 </html>
