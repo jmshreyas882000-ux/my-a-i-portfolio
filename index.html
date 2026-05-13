@@ -1,9 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <title>AI CINEMATIC SYSTEM</title>
 
@@ -18,7 +17,7 @@
 body{
   overflow:hidden;
   background:black;
-  font-family:Arial, sans-serif;
+  font-family:Arial,sans-serif;
   color:white;
 }
 
@@ -62,7 +61,7 @@ body{
 
   filter:blur(150px);
 
-  opacity:0.12;
+  opacity:0.15;
 
   top:-100px;
   left:-100px;
@@ -131,61 +130,10 @@ h1{
   margin-bottom:40px;
 }
 
-/* CARDS */
+/* HIDE CARDS TEMPORARILY */
 
 .cards{
-
-  display:flex;
-
-  gap:25px;
-
-  flex-wrap:wrap;
-
-  justify-content:center;
-}
-
-.card{
-
-  width:300px;
-
-  padding:30px;
-
-  border-radius:25px;
-
-  background:rgba(255,255,255,0.05);
-
-  backdrop-filter:blur(20px);
-
-  border:1px solid rgba(255,255,255,0.08);
-
-  transition:0.5s;
-
-  box-shadow:
-  0 0 30px rgba(0,255,255,0.05);
-}
-
-.card:hover{
-
-  transform:
-  translateY(-12px)
-  scale(1.03);
-
-  box-shadow:
-  0 0 40px rgba(0,255,255,0.3);
-}
-
-.card h2{
-
-  color:#00ffff;
-
-  margin-bottom:15px;
-}
-
-.card p{
-
-  color:#aaaaaa;
-
-  line-height:1.5;
+  display:none;
 }
 
 /* CURSOR GLOW */
@@ -263,37 +211,16 @@ body::after{
   z-index:100;
 }
 
-/* RESPONSIVE */
-
-@media(max-width:900px){
-
-  h1{
-    font-size:60px;
-  }
-
-  .cards{
-    flex-direction:column;
-    align-items:center;
-  }
-
-}
-
 </style>
 </head>
 
 <body>
 
-<!-- LOADER -->
-
 <div id="loader">
   <h1>INITIALIZING AI SYSTEM...</h1>
 </div>
 
-<!-- CANVAS -->
-
 <canvas id="bg"></canvas>
-
-<!-- EFFECTS -->
 
 <div class="grid"></div>
 
@@ -301,44 +228,15 @@ body::after{
 
 <div class="cursor-glow"></div>
 
-<!-- CONTENT -->
-
 <div class="content">
 
   <h1>AI SYSTEM</h1>
 
   <p id="typing"></p>
 
-  <div class="cards">
-
-    <div class="card">
-      <h2>AI ENGINEERING</h2>
-      <p>
-        Building intelligent systems and neural interfaces.
-      </p>
-    </div>
-
-    <div class="card">
-      <h2>FINTECH</h2>
-      <p>
-        Real-time stock and crypto intelligence dashboards.
-      </p>
-    </div>
-
-    <div class="card">
-      <h2>3D SYSTEMS</h2>
-      <p>
-        Creating cinematic futuristic web experiences.
-      </p>
-    </div>
-
-  </div>
-
 </div>
 
 <script type="module">
-
-/* IMPORT */
 
 import * as THREE from
 'https://cdn.jsdelivr.net/npm/three@0.160/build/three.module.js';
@@ -369,7 +267,7 @@ new THREE.PerspectiveCamera(
 
 );
 
-camera.position.z = 10;
+camera.position.z = 12;
 
 /* RENDERER */
 
@@ -392,6 +290,11 @@ renderer.setSize(
 
 renderer.setPixelRatio(
   window.devicePixelRatio
+);
+
+renderer.setClearColor(
+  0x000000,
+  1
 );
 
 /* PARTICLES */
@@ -443,7 +346,7 @@ new THREE.Points(
 
 scene.add(particlesMesh);
 
-/* AI CORE */
+/* CENTER SPHERE */
 
 const sphereGeometry =
 new THREE.SphereGeometry(
@@ -473,44 +376,44 @@ scene.add(sphere);
 
 const pointLight =
 new THREE.PointLight(
-  0x00ffff,
-  5,
+  0xffffff,
+  10,
   100
 );
 
 pointLight.position.set(
   0,
   0,
-  15
+  20
 );
 
 scene.add(pointLight);
 
 const ambientLight =
 new THREE.AmbientLight(
-  0x00ffff,
-  1
+  0xffffff,
+  2
 );
 
 scene.add(ambientLight);
 
-/* 3D ROBOT CUBE */
+/* BIG TEST CUBE */
 
 const robotGeometry =
 new THREE.BoxGeometry(
-  3,
-  6,
-  3
+  8,
+  8,
+  8
 );
 
 const robotMaterial =
 new THREE.MeshStandardMaterial({
 
-  color:0x00ffff,
+  color:0xff0000,
 
-  emissive:0x00ffff,
+  emissive:0xff0000,
 
-  emissiveIntensity:1
+  emissiveIntensity:2
 
 });
 
@@ -524,8 +427,8 @@ new THREE.Mesh(
 
 robot.position.set(
   0,
-  -3,
-  0
+  0,
+  2
 );
 
 scene.add(robot);
@@ -588,15 +491,12 @@ function animate(){
 
   sphere.rotation.y += 0.003;
 
-  sphere.position.y =
-  Math.sin(Date.now()*0.001) * 0.8;
-
-  /* ROBOT */
+  robot.rotation.x += 0.01;
 
   robot.rotation.y += 0.01;
 
   robot.position.y =
-  -3 + Math.sin(Date.now()*0.002) * 0.3;
+  Math.sin(Date.now()*0.002) * 0.5;
 
   renderer.render(
     scene,
