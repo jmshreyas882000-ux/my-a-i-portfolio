@@ -263,9 +263,10 @@ body::after{
 </div>
 
 <script type="module">
+  import * as THREE from 'https://cdn.jsdelivr.net/npm/three@0.160/build/three.module.js';
+
 import { GLTFLoader } from 'https://cdn.jsdelivr.net/npm/three@0.160/examples/jsm/loaders/GLTFLoader.js';
 
-import * as THREE from 'https://cdn.jsdelivr.net/npm/three@0.160/build/three.module.js';
 
 /* SCENE */
 
@@ -358,44 +359,45 @@ scene.add(sphere);
   
 /* ROBOT MODEL */
 
+/* ROBOT MODEL */
+
+const clock = new THREE.Clock();
+
+let mixer;
+
 const loader = new GLTFLoader();
 
 loader.load(
 
-  'https://threejs.org/examples/models/gltf/RobotExpressive/RobotExpressive.glb',
+'https://threejs.org/examples/models/gltf/RobotExpressive/RobotExpressive.glb',
 
-  function(gltf){
+(gltf)=>{
 
     const robot = gltf.scene;
 
-    robot.scale.set(3,3,3);
+    robot.scale.set(2.5,2.5,2.5);
 
-    robot.position.set(0,-6,0);
+    robot.position.set(0,-4,0);
+
+    robot.rotation.y = Math.PI;
 
     scene.add(robot);
 
-    /* ANIMATION */
+    mixer = new THREE.AnimationMixer(robot);
 
-    const mixer = new THREE.AnimationMixer(robot);
-
-    const action =
-    mixer.clipAction(gltf.animations[0]);
+    const action = mixer.clipAction(
+      gltf.animations[0]
+    );
 
     action.play();
 
-    function updateRobot(){
+},
 
-      requestAnimationFrame(updateRobot);
+undefined,
 
-      mixer.update(0.01);
-
-      robot.rotation.y += 0.003;
-
-    }
-
-    updateRobot();
-
-  }
+(error)=>{
+    console.log(error);
+}
 
 );
   /* ROBOT LIGHT */
@@ -471,9 +473,17 @@ type();
 
 /* ANIMATION */
 
+/* ANIMATION */
+
 function animate(){
 
   requestAnimationFrame(animate);
+
+  const delta = clock.getDelta();
+
+  if(mixer){
+    mixer.update(delta);
+  }
 
   particlesMesh.rotation.y += 0.0008;
 
