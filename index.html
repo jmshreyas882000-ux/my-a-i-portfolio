@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -21,9 +22,9 @@ body{
   color:white;
 }
 
-/* CANVAS */
+/* 3D CANVAS */
 
-  #bg{
+#bg{
   position:fixed;
   top:0;
   left:0;
@@ -44,13 +45,14 @@ body{
 
   background-size:50px 50px;
 
-  z-index:-5;
+  z-index:1;
 }
 
 /* GLOW */
 
 .glow{
   position:fixed;
+
   width:500px;
   height:500px;
 
@@ -60,12 +62,14 @@ body{
 
   filter:blur(150px);
 
-  opacity:0.15;
+  opacity:0.12;
 
   top:-100px;
   left:-100px;
 
   animation:move 10s infinite alternate;
+
+  z-index:1;
 }
 
 @keyframes move{
@@ -82,12 +86,10 @@ body{
 
 /* CONTENT */
 
-
-  .content{
+.content{
   position:relative;
-  z-index:10;
 
-  pointer-events:none;
+  z-index:10;
 
   height:100vh;
 
@@ -99,30 +101,42 @@ body{
   text-align:center;
 }
 
+/* TITLE */
+
 h1{
   font-size:90px;
 
-  background:linear-gradient(90deg,#ffffff,#00ffff);
+  background:linear-gradient(
+    90deg,
+    #ffffff,
+    #00ffff
+  );
 
   -webkit-background-clip:text;
   -webkit-text-fill-color:transparent;
 
-  letter-spacing:4px;
+  letter-spacing:5px;
+
+  margin-bottom:20px;
 }
 
-p{
-  margin-top:20px;
-  color:#aaa;
+#typing{
+  color:#aaaaaa;
+
   font-size:20px;
+
+  margin-bottom:40px;
 }
 
 /* CARDS */
 
 .cards{
   display:flex;
+
   gap:25px;
-  margin-top:40px;
+
   flex-wrap:wrap;
+
   justify-content:center;
 }
 
@@ -140,18 +154,36 @@ p{
   border:1px solid rgba(255,255,255,0.08);
 
   transition:0.5s;
+
+  box-shadow:
+  0 0 30px rgba(0,255,255,0.05);
 }
 
 .card:hover{
-  transform:translateY(-12px) scale(1.03);
+
+  transform:
+  translateY(-12px)
+  scale(1.03);
 
   box-shadow:
   0 0 40px rgba(0,255,255,0.3);
+
 }
 
 .card h2{
-  margin-bottom:15px;
+
   color:#00ffff;
+
+  margin-bottom:15px;
+
+}
+
+.card p{
+
+  color:#aaaaaa;
+
+  line-height:1.5;
+
 }
 
 /* CURSOR GLOW */
@@ -170,13 +202,14 @@ p{
 
   pointer-events:none;
 
-  z-index:1;
+  z-index:2;
 }
 
 /* LOADER */
 
 #loader{
   position:fixed;
+
   inset:0;
 
   background:black;
@@ -188,6 +221,7 @@ p{
   z-index:9999;
 
   animation:fadeOut 2s forwards;
+
   animation-delay:2s;
 }
 
@@ -200,12 +234,14 @@ p{
 
 }
 
-/* SCANLINE */
+/* SCANLINES */
 
 body::after{
+
   content:"";
 
   position:fixed;
+
   inset:0;
 
   background:
@@ -216,9 +252,26 @@ body::after{
 
   background-size:100% 3px;
 
+  opacity:0.08;
+
   pointer-events:none;
 
-  opacity:0.08;
+  z-index:100;
+}
+
+/* RESPONSIVE */
+
+@media(max-width:900px){
+
+  h1{
+    font-size:60px;
+  }
+
+  .cards{
+    flex-direction:column;
+    align-items:center;
+  }
+
 }
 
 </style>
@@ -226,17 +279,25 @@ body::after{
 
 <body>
 
-<canvas id="bg"></canvas>
+<!-- LOADER -->
 
 <div id="loader">
   <h1>INITIALIZING AI SYSTEM...</h1>
 </div>
+
+<!-- 3D CANVAS -->
+
+<canvas id="bg"></canvas>
+
+<!-- BACKGROUND EFFECTS -->
 
 <div class="grid"></div>
 
 <div class="glow"></div>
 
 <div class="cursor-glow"></div>
+
+<!-- CONTENT -->
 
 <div class="content">
 
@@ -248,17 +309,23 @@ body::after{
 
     <div class="card">
       <h2>AI ENGINEERING</h2>
-      <p>Building intelligent systems and neural interfaces.</p>
+      <p>
+        Building intelligent systems and neural interfaces.
+      </p>
     </div>
 
     <div class="card">
       <h2>FINTECH</h2>
-      <p>Real-time stock and crypto intelligence dashboards.</p>
+      <p>
+        Real-time stock and crypto intelligence dashboards.
+      </p>
     </div>
 
     <div class="card">
       <h2>3D SYSTEMS</h2>
-      <p>Creating cinematic futuristic web experiences.</p>
+      <p>
+        Creating cinematic futuristic web experiences.
+      </p>
     </div>
 
   </div>
@@ -266,16 +333,26 @@ body::after{
 </div>
 
 <script type="module">
-  import * as THREE from 'https://cdn.jsdelivr.net/npm/three@0.160/build/three.module.js';
 
-import { GLTFLoader } from 'https://cdn.jsdelivr.net/npm/three@0.160/examples/jsm/loaders/GLTFLoader.js';
+/* IMPORTS */
 
+import * as THREE from
+'https://cdn.jsdelivr.net/npm/three@0.160/build/three.module.js';
+
+import { GLTFLoader } from
+'https://cdn.jsdelivr.net/npm/three@0.160/examples/jsm/loaders/GLTFLoader.js';
 
 /* SCENE */
 
 const scene = new THREE.Scene();
 
-scene.fog = new THREE.Fog(0x000000,10,80);
+scene.fog = new THREE.Fog(
+  0x000000,
+  10,
+  80
+);
+
+/* CAMERA */
 
 const camera = new THREE.PerspectiveCamera(
   75,
@@ -284,8 +361,7 @@ const camera = new THREE.PerspectiveCamera(
   1000
 );
 
-
-  camera.position.z = 12;
+camera.position.z = 10;
 
 /* RENDERER */
 
@@ -300,125 +376,87 @@ renderer.setSize(
   window.innerHeight
 );
 
-renderer.setPixelRatio(window.devicePixelRatio);
+renderer.setPixelRatio(
+  window.devicePixelRatio
+);
 
 /* PARTICLES */
 
-const particlesGeometry = new THREE.BufferGeometry();
+const particlesGeometry =
+new THREE.BufferGeometry();
 
 const particleCount = 5000;
 
-const positions = new Float32Array(
-  particleCount * 3
-);
+const positions =
+new Float32Array(particleCount * 3);
 
 for(let i=0;i<particleCount*3;i++){
 
-  positions[i] = (Math.random()-0.5) * 100;
+  positions[i] =
+  (Math.random()-0.5) * 100;
 
 }
 
 particlesGeometry.setAttribute(
+
   'position',
-  new THREE.BufferAttribute(positions,3)
+
+  new THREE.BufferAttribute(
+    positions,
+    3
+  )
+
 );
 
-const particlesMaterial = new THREE.PointsMaterial({
+const particlesMaterial =
+new THREE.PointsMaterial({
 
   color:0x00ffff,
+
   size:0.08
 
 });
 
-const particlesMesh = new THREE.Points(
+const particlesMesh =
+new THREE.Points(
+
   particlesGeometry,
   particlesMaterial
+
 );
 
 scene.add(particlesMesh);
 
 /* AI CORE */
 
-const sphereGeometry = new THREE.SphereGeometry(
+const sphereGeometry =
+new THREE.SphereGeometry(
   5,
   64,
   64
 );
 
-const sphereMaterial = new THREE.MeshBasicMaterial({
+const sphereMaterial =
+new THREE.MeshBasicMaterial({
 
   color:0x00ffff,
+
   wireframe:true
 
 });
 
-const sphere = new THREE.Mesh(
+const sphere =
+new THREE.Mesh(
   sphereGeometry,
   sphereMaterial
 );
 
 scene.add(sphere);
 
-/* LIGHT */
-  
-/* ROBOT MODEL */
+/* LIGHTS */
 
-/* ROBOT MODEL */
-
-const clock = new THREE.Clock();
-
-let mixer;
-
-const loader = new GLTFLoader();
-
-loader.load(
-
-'https://threejs.org/examples/models/gltf/RobotExpressive/RobotExpressive.glb',
-
-(gltf)=>{
-
-    const robot = gltf.scene;
-
-    
-  robot.scale.set(4,4,4);
-
-  robot.position.set(0,-5,8);
-
-    robot.rotation.y = Math.PI;
-
-    scene.add(robot);
-
-    mixer = new THREE.AnimationMixer(robot);
-
-    const action = mixer.clipAction(
-      gltf.animations[0]
-    );
-
-    action.play();
-
-},
-
-undefined,
-
-(error)=>{
-    console.log(error);
-}
-
-);
-  /* ROBOT LIGHT */
-  
-
-const robotLight = new THREE.SpotLight(
-  0x00ffff,
-  40
-);
-
-robotLight.position.set(0,15,20);
-
-robotLight.angle = 0.5;
-
-scene.add(robotLight);
-const light = new THREE.PointLight(
+const light =
+new THREE.PointLight(
   0x00ffff,
   5,
   100
@@ -428,31 +466,99 @@ light.position.set(0,0,15);
 
 scene.add(light);
 
-/* MOUSE */
+const robotLight =
+new THREE.SpotLight(
+  0x00ffff,
+  40
+);
 
-let mouseX = 0;
-let mouseY = 0;
+robotLight.position.set(
+  0,
+  15,
+  20
+);
 
-window.addEventListener("mousemove",(e)=>{
+robotLight.angle = 0.5;
 
-  mouseX =
-  (e.clientX / window.innerWidth - 0.5);
+scene.add(robotLight);
 
-  mouseY =
-  (e.clientY / window.innerHeight - 0.5);
+/* ROBOT */
 
-});
+const clock = new THREE.Clock();
 
-/* CURSOR GLOW */
+let mixer;
+let robot;
 
-const glow = document.querySelector(".cursor-glow");
+const loader = new GLTFLoader();
 
-window.addEventListener("mousemove",(e)=>{
+loader.load(
 
-  glow.style.left = e.clientX - 150 + "px";
-  glow.style.top = e.clientY - 150 + "px";
+'https://rawcdn.githack.com/mrdoob/three.js/r146/examples/models/gltf/RobotExpressive/RobotExpressive.glb',
 
-});
+(gltf)=>{
+
+  robot = gltf.scene;
+
+  robot.scale.set(3,3,3);
+
+  robot.position.set(
+    0,
+    -6,
+    -2
+  );
+
+  robot.rotation.y = Math.PI;
+
+  scene.add(robot);
+
+  mixer =
+  new THREE.AnimationMixer(robot);
+
+  const action =
+  mixer.clipAction(
+    gltf.animations[0]
+  );
+
+  action.play();
+
+  console.log("Robot Loaded");
+
+},
+
+(xhr)=>{
+
+  console.log(
+    (xhr.loaded / xhr.total * 100)
+    + '% loaded'
+  );
+
+},
+
+(error)=>{
+
+  console.log("ERROR:", error);
+
+}
+
+);
+
+/* MOUSE GLOW */
+
+const glow =
+document.querySelector(".cursor-glow");
+
+window.addEventListener(
+  "mousemove",
+  (e)=>{
+
+    glow.style.left =
+    e.clientX - 150 + "px";
+
+    glow.style.top =
+    e.clientY - 150 + "px";
+
+  }
+);
 
 /* TYPING EFFECT */
 
@@ -465,7 +571,9 @@ function type(){
 
   if(i < text.length){
 
-    document.getElementById("typing").innerHTML += text.charAt(i);
+    document
+    .getElementById("typing")
+    .innerHTML += text.charAt(i);
 
     i++;
 
@@ -477,8 +585,6 @@ function type(){
 
 type();
 
-
-/*Animation*/
 /* ANIMATION */
 
 function animate(){
@@ -488,19 +594,28 @@ function animate(){
   const delta = clock.getDelta();
 
   if(mixer){
+
     mixer.update(delta);
+
   }
 
   particlesMesh.rotation.y += 0.0008;
 
   sphere.rotation.x += 0.002;
+
   sphere.rotation.y += 0.003;
 
   sphere.position.y =
   Math.sin(Date.now()*0.001) * 0.8;
 
-  scene.rotation.y = mouseX * 0.3;
-  scene.rotation.x = mouseY * 0.2;
+  if(robot){
+
+    robot.rotation.y += 0.003;
+
+    robot.position.y =
+    -6 + Math.sin(Date.now()*0.002) * 0.3;
+
+  }
 
   renderer.render(scene,camera);
 
@@ -510,19 +625,23 @@ animate();
 
 /* RESIZE */
 
-window.addEventListener("resize",()=>{
+window.addEventListener(
+  "resize",
+  ()=>{
 
-  camera.aspect =
-  window.innerWidth / window.innerHeight;
+    camera.aspect =
+    window.innerWidth /
+    window.innerHeight;
 
-  camera.updateProjectionMatrix();
+    camera.updateProjectionMatrix();
 
-  renderer.setSize(
-    window.innerWidth,
-    window.innerHeight
-  );
+    renderer.setSize(
+      window.innerWidth,
+      window.innerHeight
+    );
 
-});
+  }
+);
 
 </script>
 
