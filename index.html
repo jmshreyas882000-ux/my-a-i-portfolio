@@ -2,8 +2,8 @@
 <html lang="en">
 
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 
 <title>AI CINEMATIC SYSTEM</title>
 
@@ -22,7 +22,7 @@ body{
   color:white;
 }
 
-/* 3D CANVAS */
+/* CANVAS */
 
 #bg{
   position:fixed;
@@ -104,9 +104,11 @@ body{
 /* TITLE */
 
 h1{
+
   font-size:90px;
 
-  background:linear-gradient(
+  background:
+  linear-gradient(
     90deg,
     #ffffff,
     #00ffff
@@ -121,6 +123,7 @@ h1{
 }
 
 #typing{
+
   color:#aaaaaa;
 
   font-size:20px;
@@ -131,6 +134,7 @@ h1{
 /* CARDS */
 
 .cards{
+
   display:flex;
 
   gap:25px;
@@ -141,6 +145,7 @@ h1{
 }
 
 .card{
+
   width:300px;
 
   padding:30px;
@@ -167,7 +172,6 @@ h1{
 
   box-shadow:
   0 0 40px rgba(0,255,255,0.3);
-
 }
 
 .card h2{
@@ -175,7 +179,6 @@ h1{
   color:#00ffff;
 
   margin-bottom:15px;
-
 }
 
 .card p{
@@ -183,12 +186,12 @@ h1{
   color:#aaaaaa;
 
   line-height:1.5;
-
 }
 
 /* CURSOR GLOW */
 
 .cursor-glow{
+
   position:fixed;
 
   width:300px;
@@ -208,6 +211,7 @@ h1{
 /* LOADER */
 
 #loader{
+
   position:fixed;
 
   inset:0;
@@ -285,11 +289,11 @@ body::after{
   <h1>INITIALIZING AI SYSTEM...</h1>
 </div>
 
-<!-- 3D CANVAS -->
+<!-- CANVAS -->
 
 <canvas id="bg"></canvas>
 
-<!-- BACKGROUND EFFECTS -->
+<!-- EFFECTS -->
 
 <div class="grid"></div>
 
@@ -334,13 +338,10 @@ body::after{
 
 <script type="module">
 
-/* IMPORTS */
+/* IMPORT */
 
 import * as THREE from
 'https://cdn.jsdelivr.net/npm/three@0.160/build/three.module.js';
-
-import { GLTFLoader } from
-'https://cdn.jsdelivr.net/npm/three@0.160/examples/jsm/loaders/GLTFLoader.js';
 
 /* SCENE */
 
@@ -354,21 +355,34 @@ scene.fog = new THREE.Fog(
 
 /* CAMERA */
 
-const camera = new THREE.PerspectiveCamera(
+const camera =
+new THREE.PerspectiveCamera(
+
   75,
-  window.innerWidth / window.innerHeight,
+
+  window.innerWidth /
+  window.innerHeight,
+
   0.1,
+
   1000
+
 );
 
 camera.position.z = 10;
 
 /* RENDERER */
 
-const renderer = new THREE.WebGLRenderer({
-  canvas:document.getElementById("bg"),
+const renderer =
+new THREE.WebGLRenderer({
+
+  canvas:
+  document.getElementById("bg"),
+
   antialias:true,
+
   alpha:true
+
 });
 
 renderer.setSize(
@@ -388,7 +402,9 @@ new THREE.BufferGeometry();
 const particleCount = 5000;
 
 const positions =
-new Float32Array(particleCount * 3);
+new Float32Array(
+  particleCount * 3
+);
 
 for(let i=0;i<particleCount*3;i++){
 
@@ -455,100 +471,74 @@ scene.add(sphere);
 
 /* LIGHTS */
 
-const light =
+const pointLight =
 new THREE.PointLight(
   0x00ffff,
   5,
   100
 );
 
-light.position.set(0,0,15);
-
-scene.add(light);
-
-const robotLight =
-new THREE.SpotLight(
-  0x00ffff,
-  40
-);
-
-robotLight.position.set(
+pointLight.position.set(
   0,
-  15,
-  20
+  0,
+  15
 );
 
-robotLight.angle = 0.5;
+scene.add(pointLight);
 
-scene.add(robotLight);
+const ambientLight =
+new THREE.AmbientLight(
+  0x00ffff,
+  1
+);
 
-/* ROBOT */
+scene.add(ambientLight);
 
-const clock = new THREE.Clock();
+/* 3D ROBOT CUBE */
 
-let mixer;
-let robot;
+const robotGeometry =
+new THREE.BoxGeometry(
+  3,
+  6,
+  3
+);
 
-const loader = new GLTFLoader();
+const robotMaterial =
+new THREE.MeshStandardMaterial({
 
-loader.load(
+  color:0x00ffff,
 
-'https://rawcdn.githack.com/mrdoob/three.js/r146/examples/models/gltf/RobotExpressive/RobotExpressive.glb',
+  emissive:0x00ffff,
 
-(gltf)=>{
+  emissiveIntensity:1
 
-  robot = gltf.scene;
+});
 
-  robot.scale.set(3,3,3);
+const robot =
+new THREE.Mesh(
 
-  robot.position.set(
-    0,
-    -6,
-    -2
-  );
-
-  robot.rotation.y = Math.PI;
-
-  scene.add(robot);
-
-  mixer =
-  new THREE.AnimationMixer(robot);
-
-  const action =
-  mixer.clipAction(
-    gltf.animations[0]
-  );
-
-  action.play();
-
-  console.log("Robot Loaded");
-
-},
-
-(xhr)=>{
-
-  console.log(
-    (xhr.loaded / xhr.total * 100)
-    + '% loaded'
-  );
-
-},
-
-(error)=>{
-
-  console.log("ERROR:", error);
-
-}
+  robotGeometry,
+  robotMaterial
 
 );
 
-/* MOUSE GLOW */
+robot.position.set(
+  0,
+  -3,
+  0
+);
+
+scene.add(robot);
+
+/* CURSOR GLOW */
 
 const glow =
 document.querySelector(".cursor-glow");
 
 window.addEventListener(
+
   "mousemove",
+
   (e)=>{
 
     glow.style.left =
@@ -558,6 +548,7 @@ window.addEventListener(
     e.clientY - 150 + "px";
 
   }
+
 );
 
 /* TYPING EFFECT */
@@ -591,14 +582,6 @@ function animate(){
 
   requestAnimationFrame(animate);
 
-  const delta = clock.getDelta();
-
-  if(mixer){
-
-    mixer.update(delta);
-
-  }
-
   particlesMesh.rotation.y += 0.0008;
 
   sphere.rotation.x += 0.002;
@@ -608,16 +591,17 @@ function animate(){
   sphere.position.y =
   Math.sin(Date.now()*0.001) * 0.8;
 
-  if(robot){
+  /* ROBOT */
 
-    robot.rotation.y += 0.003;
+  robot.rotation.y += 0.01;
 
-    robot.position.y =
-    -6 + Math.sin(Date.now()*0.002) * 0.3;
+  robot.position.y =
+  -3 + Math.sin(Date.now()*0.002) * 0.3;
 
-  }
-
-  renderer.render(scene,camera);
+  renderer.render(
+    scene,
+    camera
+  );
 
 }
 
@@ -626,7 +610,9 @@ animate();
 /* RESIZE */
 
 window.addEventListener(
+
   "resize",
+
   ()=>{
 
     camera.aspect =
@@ -641,6 +627,7 @@ window.addEventListener(
     );
 
   }
+
 );
 
 </script>
